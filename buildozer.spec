@@ -9,7 +9,7 @@ source.include_patterns = fonts/*,*.png,*.jpg,*.jpeg,*.ttf,*.json
 version = 1.0.0
 
 # استفاده از شاخه اصلی python-for-android جهت دریافت لینک‌های جدید دانلود
-p4a.branch = master
+#p4a.branch = master
 
 requirements = python3,kivy,pillow,pyjnius,android
 
