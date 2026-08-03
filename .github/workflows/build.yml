@@ -15,6 +15,11 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    - name: Disable IPv6 (Fix Network Unreachable Error)
+      run: |
+        sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
+        sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
+
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -56,12 +61,10 @@ jobs:
         pip install "cython<3.0.0" buildozer setuptools
 
     - name: Build APK with Buildozer
-      env:
-        ANDROID_NDK_HOME: ""
-        ANDROID_NDK_ROOT: ""
-        ANDROID_NDK: ""
-        ANDROID_NDK_LATEST_HOME: ""
       run: |
+        unset ANDROID_NDK_HOME
+        unset ANDROID_NDK_ROOT
+        unset ANDROID_NDK
         buildozer -v android debug
 
     - name: Upload APK Artifact
