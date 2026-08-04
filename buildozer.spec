@@ -9,7 +9,7 @@ source.include_patterns = fonts/*,*.png,*.jpg,*.jpeg,*.ttf,*.json
 version = 1.0.0
 
 # فعال‌سازی سنسور چرخش خودکار و حالت عمودی/افقی
-#orientation = sensor
+orientation = sensor
 
 # استفاده از شاخه اصلی python-for-android جهت دریافت لینک‌های جدید دانلود
 #p4a.branch = master
