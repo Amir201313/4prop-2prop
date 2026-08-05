@@ -12,10 +12,11 @@ fullscreen = 0
 orientation = all
 android.manifest.orientation = fullSensor
 
-p4a.branch = master
+# استفاده از شاخه develop جهت پچ‌های نیتیو پایتون ۳ و NDK
+p4a.branch = develop
 
-# تعیین دقیق نسخه Kivy جهت دانلود از لینک پایدار
-requirements = python3,kivy==2.3.0,pillow,pyjnius,android
+# تثبیت نسخه Pillow جهت کامپایل صحیح سورس کد توسط NDK
+requirements = python3,kivy==2.3.0,pillow==9.5.0,pyjnius,android
 
 source.main = main.py
 icon.filename = %(source.dir)s/icon.png
