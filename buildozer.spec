@@ -12,11 +12,8 @@ fullscreen = 0
 orientation = all
 android.manifest.orientation = fullSensor
 
-# استفاده از شاخه اصلی p4a برای سازگاری بهتر
-p4a.branch = master
-
-# اضافه شدن png و jpeg برای کامپایل صحیح Pillow
-requirements = python3,kivy,pillow,pyjnius,android,png,jpeg
+# اصلاح نیازمندی‌ها (حذف png و jpeg)
+requirements = python3,kivy,pillow,pyjnius,android
 
 source.main = main.py
 icon.filename = %(source.dir)s/icon.png
