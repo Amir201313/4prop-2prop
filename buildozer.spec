@@ -12,8 +12,7 @@ fullscreen = 0
 orientation = all
 android.manifest.orientation = fullSensor
 
-# نیازمندی‌های برنامه
-requirements = python3,kivy,pillow,pyjnius,android
+requirements = python3,kivy==2.3.0,pillow==9.5.0,pyjnius,android
 
 source.main = main.py
 icon.filename = %(source.dir)s/icon.png
