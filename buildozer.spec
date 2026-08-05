@@ -12,8 +12,10 @@ fullscreen = 0
 orientation = all
 android.manifest.orientation = fullSensor
 
-# اصلاح نیازمندی‌ها (حذف png و jpeg)
-requirements = python3,kivy,pillow,pyjnius,android
+p4a.branch = master
+
+# تعیین دقیق نسخه Kivy جهت دانلود از لینک پایدار
+requirements = python3,kivy==2.3.0,pillow,pyjnius,android
 
 source.main = main.py
 icon.filename = %(source.dir)s/icon.png
