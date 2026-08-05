@@ -65,16 +65,49 @@ jobs:
         python -m pip install --upgrade pip
         pip install "cython<3.0.0" buildozer setuptools
 
-    - name: Clean Previous Failed Builds & Build APK
+    - name: Fix Python User-Agent for Buildozer Downloads
+      run: |
+        SITE_PKGS=$(python3 -c "import site; print(site.getsitepackages()[0])")
+        echo "Injecting User-Agent patch into $SITE_PKGS/sitecustomize.py"
+        cat << 'EOF' > "$SITE_PKGS/sitecustomize.py"
+import urllib.request
+
+class AppURLopener(urllib.request.FancyURLopener):
+    version = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+urllib.request._urlopener = AppURLopener()
+
+try:
+    opener = urllib.request.build_opener()
+    opener.addheaders = [('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36')]
+    urllib.request.install_opener(opener)
+except Exception:
+    pass
+EOF
+
+    - name: Build APK with Smart Retry
       run: |
         unset ANDROID_NDK_HOME
         unset ANDROID_NDK_ROOT
         unset ANDROID_NDK
         
-        # پاکسازی پوشه کش قبلی برای جلوگیری از تداخل نسخه Pillow
-        rm -rf .buildozer/android/platform/build-arm64-v8a/build/other_builds/pillow || true
-        
-        buildozer android debug
+        SUCCESS=0
+        for i in {1..3}; do
+          echo "=== Attempt $i to build APK ==="
+          if buildozer -v android debug; then
+            echo "Build Succeeded on attempt $i!"
+            SUCCESS=1
+            break
+          else
+            echo "Attempt $i failed. Retrying in 12 seconds..."
+            sleep 12
+          fi
+        done
+
+        if [ $SUCCESS -eq 0 ]; then
+          echo "All 3 build attempts failed."
+          exit 1
+        fi
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
